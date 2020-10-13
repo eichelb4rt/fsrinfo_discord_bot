@@ -5,10 +5,9 @@ Installation:
 - Empfohlen: Visual Studio Code mit ESLint-Erweiterung (Auf Nachfrage die Verwendung von lokalem ESLint erlauben)
 - Repository clonen
 - `npm install`
-- `config.js` einfügen (siehe `config-template.js`)
+- `src/config.ts` einfügen (siehe `src/config-template.ts`)
 - `npm start`
 
-Manuelles Linting:
-```
-npx eslint main.js
-```
+Kompilierung:
+- Bei neu eingefügten Commands `npm run newcommands`
+- `npm run build`
