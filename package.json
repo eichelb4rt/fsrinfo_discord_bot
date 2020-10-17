@@ -4,7 +4,6 @@
   "description": "Make Discord Great Again",
   "main": "main.js",
   "scripts": {
-    "newcommands": "./update_commands.sh",
     "build": "tsc",
     "start": "node build/main.js"
   },
@@ -19,6 +18,7 @@
   },
   "homepage": "https://github.com/eichelb4rt/fsrinfo_discord_bot#readme",
   "dependencies": {
+    "@types/node": "^14.11.10",
     "discord.js": "^12.2.0"
   },
   "devDependencies": {
