@@ -19,7 +19,8 @@
   "homepage": "https://github.com/eichelb4rt/fsrinfo_discord_bot#readme",
   "dependencies": {
     "@types/node": "^14.11.10",
-    "discord.js": "^12.2.0"
+    "discord.js": "^12.2.0",
+    "typescript": "^4.0.3"
   },
   "devDependencies": {
     "eslint": "^7.4.0"
