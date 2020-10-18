@@ -12,7 +12,7 @@ client.once("ready", () => {
 
 client.on("message", (message: Message) => {
 	for (const command of commands) {
-		if (command.condition(message)) {
+		if (command.enabled && command.condition(message)) {
 			command.action(message);
 		}
 	}
