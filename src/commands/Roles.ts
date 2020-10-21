@@ -2,9 +2,9 @@ import Command from "../Command"
 import { Message, User, Role, Guild, DiscordAPIError } from "discord.js"
 
 export default class Roles extends Command {
-    invokeStr: String = "!role";
-    description: String = "add or remove some roles";
-    help: String = "!role {add|remove} <role name>";
+    invokeStr: string = "!role";
+    description: string = "add or remove some roles";
+    help: string = "!role {add|remove} <role name>";
 
     // roles that can be added and removed by the user
     private RoleHashMaps: Map<Guild, Map<string, Role>> = new Map();

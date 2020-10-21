@@ -1,7 +1,7 @@
 import CONFIG from "./config";
 import Discord, { Message } from "discord.js";
 import Command from "./Command";
-import { commands, secret_commands} from "./load_commands"
+import { commands, secret_commands } from "./load_commands";
 
 const client = new Discord.Client();
 
@@ -18,7 +18,7 @@ client.on("message", (message: Message) => {
 
 	for (const secret_command of secret_commands) {
 		if (secret_command.condition(message)) {
-			secret_command.action(message)
+			secret_command.action(message);
 		}
 	}
 });

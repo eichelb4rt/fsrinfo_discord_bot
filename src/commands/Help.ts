@@ -3,9 +3,9 @@ import { Message, MessageEmbed } from "discord.js"
 import { commands } from "../load_commands"
 
 export default class Help extends Command {
-    invokeStr: String = "!help";
-    description: String = "Help! It's a flying spaghetti monster!";
-    help: String = "!help";
+    invokeStr: string = "!help";
+    description: string = "Help! It's a flying spaghetti monster!";
+    help: string = "!help";
     
     condition(msg: Message): boolean {
         return msg.content === this.invokeStr;
