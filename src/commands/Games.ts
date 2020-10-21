@@ -54,6 +54,6 @@ export default class Games extends Command {
         return guild?.channels.cache.find((channel: Channel) =>
             channel.type == "category"
             && (channel as CategoryChannel).name == "Games"
-            );
+        );
     }
 }
