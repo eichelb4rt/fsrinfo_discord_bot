@@ -2,14 +2,14 @@ import FS, { fstat } from "fs";
 import Path from "path";
 import Command from "./Command";
 
-const commands: Command[] = loadCommands();
-export default commands;
+export const commands: Command[] = loadCommands("commands");
+export const secret_commands: Command[] = loadCommands("secret_commands");
 
-function loadCommands(): Command[] {
+function loadCommands(dir: string): Command[] {
 	// return all the commands
 	let commands: Command[] = [];
-	for (const commandName of getFiles("./src/commands")) {
-		const commandClass = require(`./commands/${commandName}`).default;
+	for (const commandName of getFiles(`./src/${dir}`)) {
+		const commandClass = require(`./${dir}/${commandName}`).default;
 		const command = new commandClass() as Command;
 		if (command.enabled)
 			commands.push(command);

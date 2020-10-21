@@ -1,6 +1,6 @@
 import Command from "../Command"
 import { Message, MessageEmbed } from "discord.js"
-import commands from "../load_commands"
+import { commands } from "../load_commands"
 
 export default class Help extends Command {
     invokeStr: String = "!help";
@@ -16,7 +16,7 @@ export default class Help extends Command {
         helpEmbed.setTitle("Commands");
         helpEmbed.setColor("#002154");
         for (const command of commands) {
-            helpEmbed.addField(command.invokeStr, `\`${command.help}\`\n${command.description}`, true);
+            helpEmbed.addField(command.invokeStr, `\`${command.help}\`\n${command.description}`, false);
         }
         msg.channel.send(helpEmbed);
     }
