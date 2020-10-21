@@ -1,10 +1,9 @@
 import CONFIG from "./config";
 import Discord, { Message } from "discord.js";
 import Command from "./Command";
-import loadCommands from "./load_commands"
+import commands from "./load_commands"
 
 const client = new Discord.Client();
-const commands: Command[] = loadCommands();
 
 client.once("ready", () => {
 	console.log("Ready!");
@@ -12,11 +11,10 @@ client.once("ready", () => {
 
 client.on("message", (message: Message) => {
 	for (const command of commands) {
-		if (command.enabled && command.condition(message)) {
+		if (command.condition(message)) {
 			command.action(message);
 		}
 	}
 });
 
 client.login(CONFIG.botToken);
-

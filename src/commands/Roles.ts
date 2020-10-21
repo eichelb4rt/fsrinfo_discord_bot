@@ -1,42 +1,78 @@
 import Command from "../Command"
-import { Message, User, Role } from "discord.js"
+import { Message, User, Role, Guild, DiscordAPIError } from "discord.js"
 
-export default class Roles implements Command {
-    enabled: boolean = true;
-    
-    condition(msg: Message): boolean {
-        let startsWith: string = msg.content.split(" ")[0];
-        return startsWith == "!role"
-    }
+export default class Roles extends Command {
+    invokeStr: String = "!role";
+    description: String = "add or remove some roles";
+    help: String = "!role {add|remove} <role name>";
+
+    // roles that can be added and removed by the user
+    private RoleHashMaps: Map<Guild, Map<string, Role>> = new Map();
+    private readonly allowedRoles: Set<string> = new Set(["Games, Student, Jobs"]);
 
     action(msg: Message): void {
-        // clean that up pls
         let type: string = msg.content.split(" ")[1];
-        switch (type) {
-            case "add": this.add(msg); break;
-            case "remove": this.remove(msg); break;
+        let args: string[] = msg.content.split(" ").slice(2);
+        for (const rolestr of args) {
+            const role: Role | undefined = this.strToRole(msg.guild, rolestr);
+            if (role != undefined) {
+                if (this.allowedRoles.has(role.name)) {
+                    switch (type) {
+                        case "add": this.add(msg, msg.guild, msg.author, role); break;
+                        case "remove": this.remove(msg, msg.guild, msg.author, role); break;
+                    }
+                } else {
+                    msg.channel.send("nice try");
+                }
+            } else {
+                msg.channel.send(`Role ${rolestr} not found.`);
+            }
         }
     }
 
-    add(msg: Message): void {
-        // adds the roles in the args
-        let args: string[] = msg.content.split(" ").slice(2);
-        let user: User = msg.author;
-        for (const rolestr of args) {
-            let role: Role | undefined = msg.guild?.roles.cache.find(role => role.name == rolestr);
-            if (role != undefined)
-                msg.guild?.member(user)?.roles.add(role);
+    private strToRole(guild: Guild | null, rolestr: string): Role | undefined {
+        // search for a role that has the desired name and is allowed to be added and removed by the user
+        if (guild != null) {
+            if (this.RoleHashMaps.has(guild)) {
+                const guildedAllowedRoles: Map<string, Role> | undefined = this.RoleHashMaps.get(guild);
+                if (guildedAllowedRoles != undefined) {
+                    // guild is already in HashMap
+                    if (guildedAllowedRoles.has(rolestr)) {
+                        // role is in HashMap
+                        return guildedAllowedRoles.get(rolestr);
+                    } else {
+                        // role is not in HashMap
+                        const role: Role | undefined = guild.roles.cache.find(role => role.name == rolestr);
+                        if (role != undefined) {
+                            guildedAllowedRoles.set(rolestr, role);
+                        }
+                        return role;
+                    }
+                }
+            }
+            //guild is not in HashMap
+            this.RoleHashMaps.set(guild, new Map<string, Role>())
+            return this.strToRole(guild, rolestr)
+        } else {
+            return undefined;
         }
     }
 
-    remove(msg: Message): void {
-        // removes the roles in the args
-        let args: string[] = msg.content.split(" ").slice(2);
-        let user: User = msg.author;
-        for (const rolestr of args) {
-            let role: Role | undefined = msg.guild?.roles.cache.find(role => role.name == rolestr);
-            if (role != undefined)
-                msg.guild?.member(user)?.roles.remove(role);
+    private add(msg: Message, guild: Guild | null, user: User, role: Role): void {
+        try {
+            guild?.member(user)?.roles.add(role);
+            msg.channel.send(`Role \"${role.name}\" added.`)
+        } catch { (e: DiscordAPIError) =>
+            msg.channel.send("Insufficient permissions.")
+        }
+    }
+
+    private remove(msg: Message, guild: Guild | null, user: User, role: Role): void {
+        try {
+            guild?.member(user)?.roles.remove(role);
+            msg.channel.send(`Role \"${role.name}\" removed.`)
+        } catch { (e: DiscordAPIError) =>
+            msg.channel.send("Insufficient permissions.")
         }
     }
 }
