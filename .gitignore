@@ -1,3 +1,4 @@
 node_modules/
-# config.js sollte nach Muster von config-template.js lokal eingerichtet werden
-config.js
+build/
+# config.ts sollte nach Muster von config-template.ts lokal eingerichtet werden
+src/config.ts
