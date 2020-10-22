@@ -1,7 +1,7 @@
 import SecretCommand from "../SecretCommand"
 import { Guild, GuildMember, Message, Role } from "discord.js"
 
-export default class Shutdown extends SecretCommand {
+export default class DummerPisser extends SecretCommand {
 
     role_dummer_pisser: Role | undefined = undefined;
     rolestr: string = "Dummer Pisser";
@@ -13,11 +13,10 @@ export default class Shutdown extends SecretCommand {
         return startsWith == "!pisser";
     }
 
-    action(msg: Message): void {
-        this.getDummerPisserRole(msg.guild);
+    async action(msg: Message): Promise<void> {
+        await this.getDummerPisserRole(msg.guild);
         if (msg.mentions.members == null || this.role_dummer_pisser == undefined)
             return;
-
         let message_an_dumme_pisser: string = "";
         for (const [key, member] of msg.mentions.members) {
             member.roles.add(this.role_dummer_pisser);
@@ -26,12 +25,12 @@ export default class Shutdown extends SecretCommand {
                 if (this.role_dummer_pisser != undefined)
                     member.roles.remove(this.role_dummer_pisser);
             }, this.pisser_time);
-            message_an_dumme_pisser += `Halt dein Maul, ${member.nickname}.\n`;
+            message_an_dumme_pisser += `Halt dein Maul, ${member.displayName}.\n`;
         }
         msg.channel.send(message_an_dumme_pisser);
     }
 
-    private getDummerPisserRole(guild: Guild | null): void {
+    private async getDummerPisserRole(guild: Guild | null): Promise<void> {
         // search for a role that has the desired name and is allowed to be added and removed by the user
         if (guild == null)
             return;
@@ -42,16 +41,16 @@ export default class Shutdown extends SecretCommand {
         if (role != undefined) {
             this.role_dummer_pisser = role;
         } else {
-            guild.roles.create({
+            await guild.roles.create({
                 data: {
-                    name: "Dummer Pisser",
+                    name: this.rolestr,
                     color: 0x9400ff,
                     hoist: false,
                     permissions: [],
                     mentionable: true
                 }, 
                 reason: "because there needs to be a Dummer Pisser"
-            }).then((pisser) => this.role_dummer_pisser = pisser);
+            }).then((pisser) => {this.role_dummer_pisser = pisser;});
         }
     }
 }
