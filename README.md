@@ -6,8 +6,5 @@ Installation:
 - Repository clonen
 - `npm install`
 - `src/config.ts` einfügen (siehe `src/config-template.ts`)
-- `npm start`
-
-Kompilierung:
-- Bei neu eingefügten Commands `npm run newcommands`
 - `npm run build`
+- `npm start`
