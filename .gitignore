@@ -1,4 +1,3 @@
 node_modules/
 build/
-# config.ts sollte nach Muster von config-template.ts lokal eingerichtet werden
-src/config.ts
+token.ts

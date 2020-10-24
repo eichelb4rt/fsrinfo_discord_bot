@@ -1,8 +1,9 @@
-import SecretCommand from "../SecretCommand"
 import { Guild, GuildMember, Message, Role, RoleData } from "discord.js"
+import SecretCommand from "../interface/SecretCommand";
 
 export default class DummerPisser extends SecretCommand {
-
+    
+    invokeStr = '!pisser';
     private pisser_map: Map<Guild, Role> = new Map();
     private readonly rolestr: string = "Dummer Pisser";
     private readonly pisser_time: number = 5 * 60 * 1000;    // 5 minutes of being a Dummer Pisser
@@ -15,11 +16,6 @@ export default class DummerPisser extends SecretCommand {
             mentionable: true
         }, 
         reason: "because there needs to be a Dummer Pisser"
-    }
-
-    condition(msg: Message): boolean {
-        const startsWith: string = msg.content.split(" ")[0];
-        return startsWith == "!pisser";
     }
 
     async action(msg: Message): Promise<void> {

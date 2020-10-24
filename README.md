@@ -5,6 +5,6 @@ Installation:
 - Empfohlen: Visual Studio Code mit ESLint-Erweiterung (Auf Nachfrage die Verwendung von lokalem ESLint erlauben)
 - Repository clonen
 - `npm install`
-- `src/config.ts` einfügen (siehe `src/config-template.ts`)
+- `src/token.ts` einfügen (siehe `src/token-template.ts`)
 - `npm run build`
 - `npm start`
