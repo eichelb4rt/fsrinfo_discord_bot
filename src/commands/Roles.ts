@@ -1,5 +1,5 @@
-import Command from "../Command"
 import { Message, User, Role, Guild, DiscordAPIError } from "discord.js"
+import { Command } from "../interface/Command";
 
 export default class Roles extends Command {
     invokeStr: string = "!role";

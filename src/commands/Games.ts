@@ -1,5 +1,5 @@
-import Command from "../Command"
 import { CategoryChannel, Channel, Guild, GuildMember, Message, VoiceChannel } from "discord.js"
+import { Command } from "../interface/Command";
 
 export default class Games extends Command {
     invokeStr: string = "!game";

@@ -1,14 +1,14 @@
 import { Message } from "discord.js"
 
-export default abstract class Command {
+export abstract class Command {
     readonly enabled: boolean = true;
-    abstract readonly description: string;
     abstract readonly invokeStr: string;
-    abstract readonly help: string;
     
-    condition(msg: Message): boolean {
+    onMessage(msg: Message): void {
         const startsWith: string = msg.content.split(" ")[0];
-        return startsWith == this.invokeStr;
+        if (startsWith == this.invokeStr) {
+            this.action(msg);
+        }
     }
     
     abstract action(msg: Message): void;
