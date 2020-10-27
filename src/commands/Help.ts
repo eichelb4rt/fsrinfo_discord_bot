@@ -10,7 +10,6 @@ export default class Help extends Command {
     help: string = "!help";
 
     action(msg: Message): void {
-        console.log('Von der help ---------------------------------');
         const helpEmbed: MessageEmbed = new MessageEmbed();
         helpEmbed.setTitle("Commands");
         helpEmbed.setColor("#002154");
