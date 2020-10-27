@@ -8,7 +8,7 @@ export default class Roles extends Command {
 
     // roles that can be added and removed by the user
     private RoleHashMaps: Map<Guild, Map<string, Role>> = new Map();
-    private readonly allowedRoles: Set<string> = new Set(["Games, Student, Jobs"]);
+    private readonly allowedRoles: Set<string> = new Set(["Games", "Student", "Jobs"]);
 
     action(msg: Message): void {
         let type: string = msg.content.split(" ")[1];
@@ -20,8 +20,8 @@ export default class Roles extends Command {
                 msg.channel.send(`Role ${rolestr} not found.`);
                 return;
             }
-            // catch is not undefined
-            if (this.allowedRoles.has(role.name)) {
+            // role is not undefined
+            if (this.allowedRoles.has(rolestr)) {
                 switch (type) {
                     case "add": this.add(msg, msg.guild, msg.author, role); break;
                     case "remove": this.remove(msg, msg.guild, msg.author, role); break;
