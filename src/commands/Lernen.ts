@@ -1,7 +1,7 @@
 import CreateChannel from "../interface/CreateChannel";
 
-export default class Games extends CreateChannel {
+export default class Lernen extends CreateChannel {
     constructor() {
-        super("Games");
+        super("Lernen");
     }
 }
