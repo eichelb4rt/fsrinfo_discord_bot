@@ -18,15 +18,14 @@ export default abstract class CreateChannel extends Command {
 
     action(msg: Message): void {
         // slice it up into the channels to be created
-        const args: string[] = msg.content.split(" ").slice(1);
+        const vc_name: string = msg.content.substr(msg.content.indexOf(' ')+1);
         // get the Games Category
         const games_category: Channel | undefined = this.getCategory(msg.guild);
         if (games_category == undefined) {
             msg.channel.send(`There's no category called \"${this.categoryName}\"`);
             return;
         }
-
-        for (const vc_name of args) {
+        if (vc_name.trim().length != 0) {   // if vc_name isn't only whitespace
             let vc: VoiceChannel;   // voice channel that's gonna be added
             msg.guild?.channels.create(vc_name, {type: "voice", parent: games_category}).then((voice: VoiceChannel) => {
                 // success => set the voice channel, confirm
@@ -47,6 +46,9 @@ export default abstract class CreateChannel extends Command {
                 }
             }
             interval = setInterval(deleteChannel, this.interval_time * 1000);
+        }
+        else {
+            msg.channel.send(`Usage: ${this.help}`);
         }
     }
 
