@@ -31,21 +31,21 @@ export default abstract class CreateChannel extends Command {
                 // success => set the voice channel, confirm
                 vc = voice;
                 msg.channel.send(`${this.categoryName} Channel ${vc_name} created.`);
+
+                // check every (interval_time) seconds, if the channel is empty
+                let interval: NodeJS.Timeout;
+                const deleteChannel = () => {
+                    if (this.countMembers(vc) == 0) {
+                        vc.delete();
+                        clearInterval(interval);
+                        msg.channel.send(`Temporary ${this.categoryName} channel ${vc_name} deleted because it was empty.`);
+                    }
+                }
+                interval = setInterval(deleteChannel, this.interval_time * 1000);
             }).catch((err) => 
                 // error => deny
                 msg.channel.send(`Could not create ${vc_name}.`)
             );
-
-            // check every (interval_time) seconds, if the channel is empty
-            let interval: NodeJS.Timeout;
-            const deleteChannel = () => {
-                if (this.countMembers(vc) == 0) {
-                    vc.delete();
-                    clearInterval(interval);
-                    msg.channel.send(`Temporary ${this.categoryName} channel ${vc_name} deleted because it was empty.`);
-                }
-            }
-            interval = setInterval(deleteChannel, this.interval_time * 1000);
         }
         else {
             msg.channel.send(`Usage: ${this.help}`);
